@@ -10,6 +10,7 @@ import CaseDetailPage from "./pages/CaseDetailPage";
 import AboutPage from "./pages/AboutPage";
 import SubmitPage from "./pages/SubmitPage";
 import NotFound from "./pages/NotFound";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const queryClient = new QueryClient();
 
