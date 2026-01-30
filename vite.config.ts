@@ -2,16 +2,21 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0",
     port: 8080,
+    proxy: {
+      // Directs frontend /api calls to the Express backend
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
     hmr: {
       overlay: false,
     },
   },
-  // Cleaned up plugins list—no more lovable-tagger dependency
   plugins: [react()],
   resolve: {
     alias: {

@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  cases        Case[]
+  
+  @@map("users")
+}
+
+model Case {
+  id             String      @id @default(cuid())
+  caseNumber     String      @unique // ATH-2024-0001
+  
+  firstNameEn    String
+  firstNameAr    String
+  lastNameEn     String
+  lastNameAr     String
+  age            Int?
+  gender         Gender
+  
+  // Vercel Blob URLs
+  photo          String?     
+  images         String[]    
+  
+  dateMissing    DateTime
+  lastSeenEn     String
+  lastSeenAr     String
+  descriptionEn  String      @db.Text
+  descriptionAr  String      @db.Text
+  
+  status         CaseStatus
+  
+  published      Boolean     @default(false)
+  featured       Boolean     @default(false)
+  
+  authorId       String
+  author         User        @relation(fields: [authorId], references: [id])
+  
+  timeline       TimelineEvent[]
+  
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  deletedAt      DateTime?   
+
+  @@index([status])
+  @@map("cases")
+}
+
+model TimelineEvent {
+  id      String   @id @default(cuid())
+  caseId  String
+  case    Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  date    DateTime
+  eventEn String   @db.Text
+  eventAr String   @db.Text
+  
+  @@index([caseId])
+  @@map("timeline_events")
+}
+
+// --- ENUMS ---
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum CaseStatus {
+  KIDNAPPED
+  KIDNAPPED_FOR_RANSOM
+  KILLED
+  RETURNED_SAFELY
+  MISSING_VOLUNTARY
+  UNDER_INVESTIGATION
+}
