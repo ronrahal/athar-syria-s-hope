@@ -1,96 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Athar Dark Theme - Humanitarian Dignity */
+    --background: 234 33% 14%;
+    --foreground: 45 29% 90%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 234 33% 17%;
+    --card-foreground: 45 29% 90%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 234 33% 15%;
+    --popover-foreground: 45 29% 90%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 56% 52%;
+    --primary-foreground: 234 33% 10%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217 46% 22%;
+    --secondary-foreground: 45 29% 90%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 234 25% 22%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 217 46% 22%;
+    --accent-foreground: 45 56% 52%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 0%;
 
-    --sidebar-background: 0 0% 98%;
+    --border: 234 20% 25%;
+    --input: 234 20% 25%;
+    --ring: 45 56% 52%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.75rem;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Gold Gradient */
+    --gradient-gold: linear-gradient(135deg, hsl(45 56% 52%), hsl(45 40% 40%));
+    --gradient-gold-shimmer: linear-gradient(90deg, hsl(45 56% 52%), hsl(50 60% 60%), hsl(45 56% 52%));
+    
+    /* Glass Effect */
+    --glass-bg: hsla(234, 33%, 17%, 0.8);
+    --glass-border: hsla(45, 56%, 52%, 0.15);
+    
+    /* Shadows */
+    --shadow-gold: 0 4px 30px hsla(45, 56%, 52%, 0.15);
+    --shadow-elevated: 0 8px 40px hsla(0, 0%, 0%, 0.4);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Status Colors */
+    --status-kidnapped: 0 72% 50%;
+    --status-ransom: 38 92% 50%;
+    --status-killed: 0 0% 40%;
+    --status-returned: 142 76% 36%;
+    --status-missing: 217 91% 60%;
+    --status-investigation: 280 70% 50%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 234 33% 12%;
+    --sidebar-foreground: 45 29% 90%;
+    --sidebar-primary: 45 56% 52%;
+    --sidebar-primary-foreground: 234 33% 10%;
+    --sidebar-accent: 217 46% 22%;
+    --sidebar-accent-foreground: 45 56% 52%;
+    --sidebar-border: 234 20% 25%;
+    --sidebar-ring: 45 56% 52%;
   }
 }
 
@@ -99,7 +81,163 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Arabic RTL Support */
+  html[dir="rtl"] body,
+  [dir="rtl"] {
+    font-family: 'Tajawal', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl;
+    box-shadow: var(--shadow-gold);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply border-primary/30 scale-[1.02];
+    box-shadow: var(--shadow-gold), 0 0 20px hsla(45, 56%, 52%, 0.1);
+  }
+
+  .gold-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-gold);
+  }
+
+  .gold-glow {
+    text-shadow: 0 0 20px hsla(45, 56%, 52%, 0.5),
+                 0 0 40px hsla(45, 56%, 52%, 0.3);
+  }
+
+  .gold-border-glow {
+    @apply border-primary/50;
+    box-shadow: 0 0 15px hsla(45, 56%, 52%, 0.2),
+                inset 0 0 15px hsla(45, 56%, 52%, 0.05);
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-kidnapped {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+
+  .status-ransom {
+    @apply bg-orange-500/20 text-orange-400 border border-orange-500/30;
+  }
+
+  .status-killed {
+    @apply bg-gray-500/20 text-gray-400 border border-gray-500/30;
+  }
+
+  .status-returned {
+    @apply bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .status-missing {
+    @apply bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .status-investigation {
+    @apply bg-purple-500/20 text-purple-400 border border-purple-500/30;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsla(45, 56%, 52%, 0.1),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-pulse-gold {
+    animation: pulse-gold 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gold {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Focus States */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary/30 text-foreground;
 }
