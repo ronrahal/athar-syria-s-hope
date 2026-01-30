@@ -63,10 +63,10 @@ const translations: Record<Language, Record<string, string>> = {
     'case.personalInfo': 'Personal Information',
     'case.caseDetails': 'Case Details',
     
-    // About
+    // About (Updated with professional human rights documentation text)
     'about.title': 'About Athar',
     'about.mission': 'Our Mission',
-    'about.missionText': 'Athar is dedicated to documenting cases of missing persons in Syria, creating a comprehensive and accessible database that serves families, human rights organizations, and the international community.',
+    'about.missionText': 'Athar was established in response to the escalating violations of fundamental rights in Syria—most notably enforced disappearances, the abduction of women, and the extrajudicial detention of men. As an independent human rights platform, Athar is dedicated to documenting cases of the abducted and disappeared while monitoring practices that contravene constitutional principles and international standards. We believe enforced disappearance and arbitrary detention are grave, ongoing crimes not subject to statutes of limitations. Athar adheres to rigorous professional and legal documentation methodologies, ensuring a clear distinction between verified facts and allegations. Athar is not an accusatory body; it is a documentation platform. It does not replace the judiciary; it preserves the facts. Because justice begins with preserving the trace.',
     'about.methodology': 'Methodology',
     'about.methodologyText': 'We employ rigorous verification processes to ensure the accuracy of each case while protecting the privacy and safety of all individuals involved.',
     'about.values': 'Our Values',
@@ -75,6 +75,11 @@ const translations: Record<Language, Record<string, string>> = {
     'about.value3': 'Transparency',
     'about.value4': 'Security & Privacy',
     
+    // Join Us Section
+    'join.title': 'Join Us in This Mission',
+    'join.description': 'If you have any information about any missing person, or would like to contribute to our efforts, please reach out to us. Every piece of information could help reunite a family.',
+    'join.trace': 'Your participation will leave a trace',
+
     // Submit
     'submit.title': 'Submit Anonymous Report',
     'submit.subtitle': 'Your identity will remain protected',
@@ -165,10 +170,10 @@ const translations: Record<Language, Record<string, string>> = {
     'case.personalInfo': 'المعلومات الشخصية',
     'case.caseDetails': 'تفاصيل الحالة',
     
-    // About
+    // About (Updated Arabic)
     'about.title': 'عن أثر',
     'about.mission': 'مهمتنا',
-    'about.missionText': 'أثر مكرسة لتوثيق حالات المفقودين في سوريا، وإنشاء قاعدة بيانات شاملة وسهلة الوصول تخدم العائلات ومنظمات حقوق الإنسان والمجتمع الدولي.',
+    'about.missionText': 'تأسست منصة أثر استجابةً للانتهاكات الجسيمة والمتصاعدة للحقوق الأساسية في سوريا، وفي مقدمتها الإخفاء القسري، واختطاف النساء، واحتجاز الرجال خارج أي إطار قانوني. تعمل أثر كمنصة حقوقية مستقلة مخصصة لتوثيق قضايا المختطفين والمختفين قسرياً، ورصد وتحليل الممارسات التي تنتهك الحق في الحرية والكرامة الإنسانية. تنطلق المنصة من مبدأ أن الإخفاء القسري والاحتجاز التعسفي جرائم مستمرة لا تسقط بالتقادم. تلتزم أثر بمنهجيات توثيق مهنية وقانونية، مع ضمان الفصل الواضح بين الوقائع المؤكدة والادعاءات. أثر لا تدين، بل تثبت. أثر لا تحل محل القضاء، بل تحفظ الوقائع. لأن العدالة تبدأ بحفظ الأثر.',
     'about.methodology': 'المنهجية',
     'about.methodologyText': 'نستخدم عمليات تحقق صارمة لضمان دقة كل حالة مع حماية خصوصية وسلامة جميع الأفراد المعنيين.',
     'about.values': 'قيمنا',
@@ -177,6 +182,11 @@ const translations: Record<Language, Record<string, string>> = {
     'about.value3': 'الشفافية',
     'about.value4': 'الأمان والخصوصية',
     
+    // Join Us Section
+    'join.title': 'انضم إلينا في هذه المهمة',
+    'join.description': 'إذا كانت لديك أي معلومات عن أي شخص مفقود، أو ترغب في المساهمة في جهودنا، يرجى التواصل معنا. كل معلومة قد تساعد في لم شمل الأسرة.',
+    'join.trace': 'مشاركتكم ستترك أثراً',
+
     // Submit
     'submit.title': 'تقديم بلاغ مجهول',
     'submit.subtitle': 'ستبقى هويتك محمية',
