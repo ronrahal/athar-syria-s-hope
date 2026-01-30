@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Layout } from '@/components/Layout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, Lock, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { Shield, Lock, Upload, CheckCircle, AlertCircle, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function SubmitPage() {
@@ -15,21 +15,71 @@ export default function SubmitPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
     
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Mapping UI fields to Prisma Schema (supporting both languages)
+    // In a production ArbitraX-style build, we'd add specific AR/EN inputs, 
+    // but for now, we'll store the input in both fields.
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const lastSeen = formData.get('lastSeen') as string;
+    const description = formData.get('description') as string;
+
+    const dataToSend = new FormData();
+    dataToSend.append('firstNameEn', firstName);
+    dataToSend.append('firstNameAr', firstName);
+    dataToSend.append('lastNameEn', lastName);
+    dataToSend.append('lastNameAr', lastName);
+    dataToSend.append('age', formData.get('age') as string);
+    dataToSend.append('gender', formData.get('gender') as string);
+    dataToSend.append('lastSeenEn', lastSeen);
+    dataToSend.append('lastSeenAr', lastSeen);
+    dataToSend.append('dateMissing', formData.get('dateMissing') as string);
+    dataToSend.append('descriptionEn', description);
+    dataToSend.append('descriptionAr', description);
+    dataToSend.append('contactInfo', formData.get('contact') as string);
     
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    toast({
-      title: isArabic ? 'تم إرسال البلاغ' : 'Report Submitted',
-      description: t('submit.success'),
-    });
+    if (selectedFile) {
+      dataToSend.append('photo', selectedFile);
+    }
+
+    try {
+      const response = await fetch('/api/cases', {
+        method: 'POST',
+        body: dataToSend,
+        // Headers are automatically set for FormData by the browser
+      });
+
+      if (!response.ok) throw new Error('Submission failed');
+
+      setIsSubmitted(true);
+      toast({
+        title: isArabic ? 'تم إرسال البلاغ' : 'Report Submitted',
+        description: t('submit.success'),
+      });
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast({
+        variant: "destructive",
+        title: isArabic ? 'خطأ في الإرسال' : 'Submission Error',
+        description: isArabic ? 'حدث خطأ أثناء إرسال البيانات. حاول مرة أخرى.' : 'Failed to send data. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -102,12 +152,12 @@ export default function SubmitPage() {
             className="glass-card p-6 md:p-8"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">{t('submit.form.firstName')} *</Label>
                   <Input
                     id="firstName"
+                    name="firstName"
                     required
                     className="bg-muted/50 border-border/50 focus:border-primary"
                     placeholder={isArabic ? 'أدخل الاسم الأول' : 'Enter first name'}
@@ -117,6 +167,7 @@ export default function SubmitPage() {
                   <Label htmlFor="lastName">{t('submit.form.lastName')} *</Label>
                   <Input
                     id="lastName"
+                    name="lastName"
                     required
                     className="bg-muted/50 border-border/50 focus:border-primary"
                     placeholder={isArabic ? 'أدخل اسم العائلة' : 'Enter last name'}
@@ -124,12 +175,12 @@ export default function SubmitPage() {
                 </div>
               </div>
 
-              {/* Age and Gender */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="age">{t('submit.form.age')} *</Label>
                   <Input
                     id="age"
+                    name="age"
                     type="number"
                     required
                     min="0"
@@ -139,7 +190,7 @@ export default function SubmitPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="gender">{t('submit.form.gender')} *</Label>
-                  <Select required>
+                  <Select name="gender" required>
                     <SelectTrigger className="bg-muted/50 border-border/50">
                       <SelectValue placeholder={isArabic ? 'اختر' : 'Select'} />
                     </SelectTrigger>
@@ -151,12 +202,12 @@ export default function SubmitPage() {
                 </div>
               </div>
 
-              {/* Location and Date */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="lastSeen">{t('submit.form.lastSeen')} *</Label>
                   <Input
                     id="lastSeen"
+                    name="lastSeen"
                     required
                     className="bg-muted/50 border-border/50 focus:border-primary"
                     placeholder={isArabic ? 'مثال: دمشق، سوريا' : 'e.g., Damascus, Syria'}
@@ -166,6 +217,7 @@ export default function SubmitPage() {
                   <Label htmlFor="dateMissing">{t('submit.form.dateMissing')} *</Label>
                   <Input
                     id="dateMissing"
+                    name="dateMissing"
                     type="date"
                     required
                     className="bg-muted/50 border-border/50 focus:border-primary"
@@ -173,11 +225,11 @@ export default function SubmitPage() {
                 </div>
               </div>
 
-              {/* Description */}
               <div className="space-y-2">
                 <Label htmlFor="description">{t('submit.form.description')} *</Label>
                 <Textarea
                   id="description"
+                  name="description"
                   required
                   rows={5}
                   className="bg-muted/50 border-border/50 focus:border-primary resize-none"
@@ -188,34 +240,52 @@ export default function SubmitPage() {
                 />
               </div>
 
-              {/* File Upload */}
+              {/* File Upload Logic Updated */}
               <div className="space-y-2">
                 <Label>{t('submit.form.files')}</Label>
-                <div className="border-2 border-dashed border-border/50 rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer">
-                  <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-sm text-muted-foreground">
-                    {isArabic 
-                      ? 'اسحب الملفات هنا أو انقر للتحميل'
-                      : 'Drag files here or click to upload'}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {isArabic ? 'الحد الأقصى: 10 ميجابايت، صور فقط' : 'Max 10MB, images only'}
-                  </p>
-                  <input type="file" className="hidden" accept="image/*" multiple />
+                <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-border/50 rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
+                >
+                  {selectedFile ? (
+                    <div className="flex flex-col items-center">
+                      <FileText className="h-10 w-10 text-primary mb-2" />
+                      <p className="text-sm font-medium">{selectedFile.name}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
+                      <p className="text-sm text-muted-foreground">
+                        {isArabic ? 'اسحب الملفات هنا أو انقر للتحميل' : 'Drag files here or click to upload'}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {isArabic ? 'الحد الأقصى: 10 ميجابايت، صور فقط' : 'Max 10MB, images only'}
+                      </p>
+                    </>
+                  )}
+                  <input 
+                    type="file" 
+                    ref={fileInputRef}
+                    className="hidden" 
+                    accept="image/*" 
+                    onChange={handleFileChange}
+                  />
                 </div>
               </div>
 
-              {/* Contact (Optional) */}
               <div className="space-y-2">
                 <Label htmlFor="contact">{t('submit.form.contact')}</Label>
                 <Input
                   id="contact"
+                  name="contact"
                   className="bg-muted/50 border-border/50 focus:border-primary"
                   placeholder={isArabic ? 'بريد إلكتروني أو رقم هاتف' : 'Email or phone number'}
                 />
               </div>
 
-              {/* Disclaimer */}
               <div className="flex items-start gap-3 p-4 bg-muted/30 rounded-lg">
                 <AlertCircle className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-muted-foreground">
@@ -223,7 +293,6 @@ export default function SubmitPage() {
                 </p>
               </div>
 
-              {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
